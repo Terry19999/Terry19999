@@ -1,6 +1,12 @@
 package marksix;
 import java.io.*;
 import javax.swing.JOptionPane;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+
+
+
 
 public class MarkSix {
 
@@ -18,17 +24,17 @@ public class MarkSix {
         String sixthNumber;
         String numberOfSet;
 
-        int [][]numberSet = new int[100][6];
+        int [][]numberSet = new int[101][6];
         int [] newSet = new int[6]; 
         int randomNumber;
-        int num;
-        int menu1;
-        boolean isRunning = false;
+        int num =0;
+        int menu1 = 0;
+        
         boolean duplicate = false;
         
         int result = JOptionPane.showConfirmDialog(null, 
              "Do you want a self select number" ,null, JOptionPane.YES_NO_OPTION);
-        num = 0;
+        
         
         
         //input
@@ -146,7 +152,7 @@ public class MarkSix {
                        }                 
              if(newSet [0] >0 && newSet [0] <49 && newSet [1] >0 && newSet [1] <49 && newSet [2] >0 && newSet [2] <49
                      )
-                  {
+                       {
                         if(newSet [0] == newSet [1] || newSet [0] == newSet [2] || newSet [1] == newSet [2])
                                 {
                                  throw new IllegalArgumentException();
@@ -168,7 +174,7 @@ public class MarkSix {
              
              if(newSet [0] >0 && newSet [0] <49 && newSet [1] >0 && newSet [1] <49 && newSet [2] >0 && newSet [2] <49
                      && newSet [3] >0 && newSet [3] <49 && newSet [4] >0 && newSet [4] <49)
-                  {
+                       {
                         if(newSet [0] == newSet [1] || newSet [0] == newSet [2] || newSet [0] == newSet [3]
                              || newSet [0] == newSet [4] || newSet [1] == newSet [2]
                              || newSet [1] == newSet [3] || newSet [1] == newSet [4]
@@ -180,7 +186,7 @@ public class MarkSix {
                        }
              if(newSet [0] >0 && newSet [0] <49 && newSet [1] >0 && newSet [1] <49 && newSet [2] >0 && newSet [2] <49
                      && newSet [3] >0 && newSet [3] <49 && newSet [4] >0 && newSet [4] <49 && newSet [5] >0 && newSet [5] <49)
-                  {
+                       {
                         if(newSet [0] == newSet [1] || newSet [0] == newSet [2] || newSet [0] == newSet [3]
                              || newSet [0] == newSet [4] || newSet [0] == newSet [5] || newSet [1] == newSet [2]
                              || newSet [1] == newSet [3] || newSet [1] == newSet [4] || newSet [1] == newSet [5]
@@ -192,30 +198,32 @@ public class MarkSix {
                        }
                    
                     }
-                    catch(NumberFormatException  e) {
-                       System.out.println("Integer please!");
-                       return; 
-                      }
-                    catch(ArithmeticException e) 
-                    {
-                       System.out.println("Don't input zero!");
-                       return; 
-                       
-                     }
-                    catch(ArrayIndexOutOfBoundsException e) {
-                       System.out.println("Not more than 50 please!");
-                       return; 
-                    }
-                    catch(NegativeNumberException e) 
-                       {
-                       System.out.println("No negative number please!");
-                       return;      
-                      }
-                     catch(IllegalArgumentException e) 
-                    {
-                       System.out.println("Number is same with the first enter number");
-                       return; 
-                    }
+                    catch(NumberFormatException  e) 
+                        {
+                         System.out.println("Integer please!");
+                         return; 
+                        }
+                        catch(ArithmeticException e) 
+                            {
+                              System.out.println("Don't input zero!");
+                              return; 
+
+                            }
+                                catch(ArrayIndexOutOfBoundsException e) 
+                                 {
+                                   System.out.println("Not more than 50 please!");
+                                   return; 
+                                 }
+                                catch(NegativeNumberException e) 
+                                    {
+                                    System.out.println("No negative number please!");
+                                    return;      
+                                    }
+                                    catch(IllegalArgumentException e) 
+                                           {
+                                              System.out.println("Number is same with the first enter number");
+                                              return; 
+                                           }
       if(menu1 <6){
        if(menu1 < 5){ 
         //ask number of sets to customer
@@ -302,7 +310,7 @@ public class MarkSix {
         
         //processing 
         for(int j=0; j<num ; j++){
-         for (int i=menu1; i<6;i++ )
+         for (int i=menu1; i<newSet.length;i++ )
             {
             
             duplicate = false;
@@ -318,11 +326,13 @@ public class MarkSix {
           
             if(duplicate == true)
                     {
+                       
                         i--;
                     }
             else
                     {
-                        newSet [i] = randomNumber;
+                     newSet[i] = randomNumber;
+                     
                     }
             
             if(duplicate == false)
@@ -332,7 +342,7 @@ public class MarkSix {
                       numberSet[j][2] = newSet[2];
                       numberSet[j][3] = newSet[3];
                       numberSet[j][4] = newSet[4];
-                      numberSet[j][i] = randomNumber;
+                      numberSet[j][i] = newSet[i];
                       }
                 }
               }
@@ -356,15 +366,53 @@ public class MarkSix {
         
      
        else{
-       
+       //Customer select randon number
        //ask number of sets for customer
-       numberOfSet = JOptionPane.showInputDialog( "How many numbers of sets");
-         num = Integer.parseInt(numberOfSet);
-            
+
+       try
+            {  
+            numberOfSet = JOptionPane.showInputDialog( "How many numbers of sets");
+            num = Integer.parseInt(numberOfSet);
+  
+                if(num == 0)
+                    {
+                        throw new ArithmeticException();
+                     }
+             
+                        if(num >=101)
+                           {
+                              throw new ArrayIndexOutOfBoundsException();
+                              }
+                                if(num< 0)
+                                   {
+                                      throw new NegativeNumberException();
+                                      }
+                     
+            }
+                 catch(NumberFormatException  e) 
+                    {
+                        System.out.println("Integer please!");
+                        return;
+                    }
+                        catch(ArithmeticException e) 
+                          {
+                               System.out.println("Don't input zero!");
+                               return;            
+                           }
+                                catch(ArrayIndexOutOfBoundsException e) 
+                                         {
+                                                     System.out.println("Not more than 48 please!");
+                                                     return;
+                                         }
+                                            catch(NegativeNumberException e) 
+                                                     {
+                                                                 System.out.println("No negative number please!");
+                                                                 return;     
+                                                     }            
            
-        for(int j=0;j<numberSet.length;j++)
+        for(int j=0;j<num;j++)
             {
-           for (int i=0; i<newSet.length;i++ )
+           for (int i=menu1; i<newSet.length;i++ )
                 {
             duplicate = false;
             //generate a number from 1-49
@@ -389,51 +437,85 @@ public class MarkSix {
             
             if(duplicate == false)
                        {
-                          numberSet[j][i] = randomNumber;
+                          numberSet[j][i] = newSet[i];
                         }
             }
           } 
          }
-        
-        duplicate = checkDuplicateSet(numberSet, newSet, num);
-        
-        if(duplicate == true)
-                {
-                    System.out.println("Repeat Set. Generate another one.");
 
-                }
-        else
-                {
-                    System.out.println("This set is sucessful");
-
-                }
-       
-       
+             
         //sorting
         for(int j=0; j<numberSet.length;j++)
             {
              for (int k=0; k<newSet.length-1; k++)
-                {    
-            
+                {
                  duplicate = false;
             
             for ( int i=0; i<newSet.length-k-1; i++)
                  {
                
-                if(numberSet[j][i] >= numberSet[j][i+1])
-                     {
-                        randomNumber = numberSet[j][i];
-                        numberSet[j][i] = numberSet[j][i+1];
-                        numberSet[j][i+1] = randomNumber;
-                        duplicate = true;
-                         }
-                
-                  }
-            
+                        if(numberSet[j][i] >= numberSet[j][i+1])
+                                    {
+                                       randomNumber = numberSet[j][i];
+                                       numberSet[j][i] = numberSet[j][i+1];
+                                       numberSet[j][i+1] = randomNumber;
+                                       duplicate = true;
+                                        }
+                          }
+
             if (duplicate == false) 
                break;
                    }
                }
+        
+        for(int g=0;g<1;g++)
+        {
+            
+            duplicate = checkDuplicateSet (numberSet, num);
+        
+          if(duplicate == true)
+                        {
+
+                    for(int j=0; j<num ; j++)
+                            {
+                        for (int i=menu1; i<newSet.length;i++ )
+                              {                     
+
+                                randomNumber = generateRandomValue();
+
+                                // check whether the randomNumber exists i
+
+
+                                duplicate = checkDuplicate (newSet, randomNumber, i);
+
+                                if(duplicate == true)
+                                        {
+                                            i--;
+                                        }
+                                            else
+                                                 {
+                                                  newSet[i] = randomNumber;
+
+                                                 }
+
+                                if(duplicate == false)
+                                        {
+                                          numberSet[j][0] = newSet[0];
+                                          numberSet[j][1] = newSet[1];
+                                          numberSet[j][2] = newSet[2];
+                                          numberSet[j][3] = newSet[3];
+                                          numberSet[j][4] = newSet[4];
+                                          numberSet[j][i] = newSet[i];
+                                          g--;
+                                          }
+
+                                   }
+                                }
+
+                           }      
+        } 
+        System.out.println("This set is successful");
+        
        
         
         //output
@@ -461,29 +543,27 @@ public class MarkSix {
            return false;
       }
     
-   public static boolean checkDuplicateSet( int[][] numberSet, int[] newSet,int num)
+   public static boolean checkDuplicateSet( int[][] numberSet,int num)
    {
-       boolean duplicate = true;
        
        for(int i=0; i<num;i++)
        {
-           duplicate = true;
-           
-           for (int j=0; j<newSet.length; j++)
+          next:
+          for(int k=i+1; k<=num;k++)
+          {        
+            for(int j=0; j<numberSet[i].length; j++)
                 {
-                    if(numberSet[i][j] != newSet[j]){
-                        duplicate = false;
-                        break;
-                    }
-                  }
-           if(duplicate == true)
-               {
-                    break;
-                     }
-           
-        }
-       return duplicate;
+                    if(numberSet[i][j]!=numberSet[k][j])
+                        {
+                            continue next;
+                        }
+                }
+           return true;
+          }
+       } 
+       return false;
    }
+       
    public static void writeSet(int[][] numberSet,int[] newSet, int num)
    {
        try{
